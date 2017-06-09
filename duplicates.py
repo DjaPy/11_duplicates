@@ -13,29 +13,39 @@ def get_files_in_path(path):
 
 
 def get_size_and_name(files_list):
-    dict_files = {}
+    list_size_and_name = []
     for file_info in files_list:
-        dict_files[(file_info[0], file_info[1])] = (file_info[2])
-    return dict_files
+        list_size_and_name.append((file_info[0], file_info[1]))
+    return list_size_and_name
+    
+
+def search_duplicates(list_size_and_name):
+    duplicate_list = []
+
+    for index,file_check in enumerate(list_size_and_name):
+        for file in list_size_and_name[(index+1):]:
+            if file_check == file:
+                duplicate_list.append(file_check)
+
+    return(duplicate_list)
 
 
-def search_duplicates(dict_files):
-    pass
 
 
-def get_full_info(duplicate_set, dict_files):
-    list_duplicate = []
-    print(duplicate_set)
-    for file_info in dict_files:
-        if file_info in duplicate_set:
-            list_duplicate.append(file_info)
-            print(list_duplicate)
-    return list_duplicate
+
+# def get_full_info(duplicate_set, dict_files):
+#     list_duplicate = []
+#     print(duplicate_set)
+#     for file_info in dict_files:
+#         if file_info in duplicate_set:
+#             list_duplicate.append(file_info)
+#             print(list_duplicate)
+#     return list_duplicate
 
 
 if __name__ == '__main__':
     path = '/home/kento/devman'
     files_list = get_files_in_path(path)
-    dict_files = get_size_and_name(files_list)
-    duplicate_set = search_duplicates(dict_files)
-    print(get_full_info(duplicate_set, dict_files))
+    print(get_size_and_name(files_list))
+    list_size_and_name = get_size_and_name(files_list)
+    print(search_duplicates(list_size_and_name))
