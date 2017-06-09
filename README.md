@@ -1,6 +1,13 @@
 # Anti-Duplicator
 
-[TODO. There will be project description]
+This script searches for duplicate files. You must specify the path to search folder.
+
+# How to use
+
+To run the script you need python 3.5 and later.
+```bash
+python duplicates.py
+```
 
 # Project Goals
 
