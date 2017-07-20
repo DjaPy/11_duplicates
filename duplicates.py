@@ -1,46 +1,64 @@
 import os
+from argparse import ArgumentParser
+
+
+def get_path():
+    parser = ArgumentParser()
+    parser.add_argument('path', help='The path to the directory'
+                        ' for finding duplicate files', type=str)
+    options = parser.parse_args()
+    return options
 
 
 def get_files_in_path(path):
     files_list = []
     for entry in os.scandir(path):
         if entry.is_file(follow_symlinks=False):
-            file_statistic = (entry.name, entry.stat().st_size, entry.path)
+            file_statistic = (entry.stat().st_size, entry.name, entry.path)
             files_list.append(file_statistic)
         elif entry.is_dir(follow_symlinks=False):
             files_list.extend(get_files_in_path(entry.path))
     return files_list
 
 
-def get_size_and_name(files_list):
-    list_size_and_name = []
-    for file_info in files_list:
-        list_size_and_name.append((file_info[0], file_info[1]))
-    return list_size_and_name
-    
+def take_first_index(elem):
+    return elem[0]
 
-def search_duplicates(list_size_and_name):
+
+def search_duplicates(file_list):
     duplicate_list = []
-    for index,file_check in enumerate(list_size_and_name):
-        for file in list_size_and_name[(index+1):]:
-            if file_check == file:
-                duplicate_list.append(file_check)
-    return(duplicate_list)
+    start_index = 0
+    const = 1
+    half = 2
+    end_index = len(files_list) - const
+    medium_index = end_index // half
+
+    for file in file_list:
+        while medium_index != file[0] and start_index < end_index:
+            if file[0] > files_list[medium_index][0]:
+                start_index = medium_index + const
+            else:
+                end_index = medium_index - const
+            medium_index = (start_index + end_index // half)
+        search_index = medium_index
+
+        if file_list[start_index][1] == file[1]:
+            duplicate_list.append(file)
+            file_list.pop(search_index)
+    return duplicate_list
 
 
-def get_full_info(duplicate_list, files_list):
-    full_info_duplicate = []
-    for file in files_list:
-        for duplicate in duplicate_list:
-            if file[0] == duplicate[0] and file[1] == duplicate[1]:
-                full_info_duplicate.append(file)
-    return full_info_duplicate
+def display_the_result():
+    for info_about_file in duplicate_list:
+        info = 'File {} duplicated on the way {}'.format(info_about_file[1], info_about_file[2])
+        print(info)
+
 
 if __name__ == '__main__':
-    path = '/path/to/folder'
+    option = get_path()
+    path = option.path
     files_list = get_files_in_path(path)
-    list_size_and_name = get_size_and_name(files_list)
-    duplicate_list = search_duplicates(list_size_and_name)
-    full_info_duplicate = get_full_info(duplicate_list, files_list)
-    for full_info in full_info_duplicate:
-        print(full_info)
+    files_list.sort(key=take_first_index)
+    print(files_list)
+    duplicate_list = search_duplicates(files_list)
+    display_the_result()

@@ -6,7 +6,9 @@ This script searches for duplicate files. You must specify the path to search fo
 
 To run the script you need python 3.5 and later.
 ```bash
-python duplicates.py
+python duplicates.py /path/to/dir
+
+File 'name_file' duplicated on the way /path/to/name_file/
 ```
 
 # Project Goals
