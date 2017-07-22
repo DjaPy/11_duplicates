@@ -50,8 +50,8 @@ def search_duplicates(file_list):
 
 def display_the_result():
     for info_about_file in duplicate_list:
-        info = 'File {} duplicated on the way {}'.format(info_about_file[1], info_about_file[2])
-        print(info)
+        duplicae_file = 'File {} duplicated on the way {}'.format(info_about_file[1], info_about_file[2])
+        print(duplicate_file)
 
 
 if __name__ == '__main__':
