@@ -33,17 +33,17 @@ def search_duplicates(file_list):
     end_index = len(files_list) - const
     medium_index = end_index // half
 
-    for file in file_list:
-        while medium_index != file[0] and start_index < end_index:
-            if file[0] > files_list[medium_index][0]:
+    for file_info in file_list:
+        while medium_index != file_info[0] and start_index < end_index:
+            if file_info[0] > files_list[medium_index][0]:
                 start_index = medium_index + const
             else:
                 end_index = medium_index - const
             medium_index = (start_index + end_index // half)
         search_index = medium_index
 
-        if file_list[start_index][1] == file[1]:
-            duplicate_list.append(file)
+        if file_list[start_index][1] == file_info[1]:
+            duplicate_list.append(file_info)
             file_list.pop(search_index)
     return duplicate_list
 
