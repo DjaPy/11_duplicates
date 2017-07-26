@@ -10,13 +10,11 @@ python duplicates.py /home/kento/devman/Test_programms
 ```
 
 ```
-Duplicate a file "README.md" size of 195kb on the path:
-| 1. /home/kento/devman/Test_programms/11_duplicate/111/11/README.md
-| 2. /home/kento/devman/Test_programms/11_duplicate/README.md
-Duplicate a file "duplicates.py" size of 1251kb on the path:
-| 1. /home/kento/devman/Test_programms/11_duplicate/11/duplicates.py
-| 2. /home/kento/devman/Test_programms/11_duplicate/duplicates.py
-| 3. /home/kento/devman/Test_programms/11_duplicate/111/11/duplicates.py
+python duplicates.py /home/kento/devman/Test_programms
+Duplicate a file "README.md" size of 195kb
+ 2 сopies
+Duplicate a file "duplicates.py" size of 1251kb
+ 3 сopies
 ```
 
 # Project Goals
