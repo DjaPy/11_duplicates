@@ -36,11 +36,14 @@ def search_duplicates(file_list):
 
 def display_the_result(duplicate_list):
     for info_about_file in duplicate_list:
-        duplicate_file = 'Duplicate a file "{}" size of {}kb on the path:'.format(info_about_file[0][1], info_about_file[0][0])
+        duplicate_file = 'Duplicate a file "{}" size of {} kb'.format(info_about_file[0][1], info_about_file[0][0])
+        path_to_duplicate_files = ' {} сopies'.format(len(info_about_file[1]))
         print(duplicate_file)
-        for number, pathes_to_duplicate_files in enumerate(info_about_file[1], start=1):
-            info_about_path = '| {}. {}'.format(number, pathes_to_duplicate_files)
-            print(info_about_path)
+        print(path_to_duplicate_files)
+        # print(duplicate_file)
+        # for number, pathes_to_duplicate_files in enumerate(info_about_file[1], start=1):
+        #     info_about_path = '| {}. {}'.format(number, pathes_to_duplicate_files)
+        #     print(info_about_path)
 
 
 if __name__ == '__main__':

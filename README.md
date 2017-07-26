@@ -7,6 +7,9 @@ This script searches for duplicate files. You must specify the path to search fo
 To run the script you need python 3.5 and later.
 ```
 python duplicates.py /home/kento/devman/Test_programms
+```
+
+```
 Duplicate a file "README.md" size of 195kb on the path:
 | 1. /home/kento/devman/Test_programms/11_duplicate/111/11/README.md
 | 2. /home/kento/devman/Test_programms/11_duplicate/README.md
