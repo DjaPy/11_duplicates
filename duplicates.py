@@ -12,43 +12,38 @@ def get_path():
 
 
 def get_files_in_path(path):
-    files_list = []
-    for entry in os.scandir(path):
-        if entry.is_file(follow_symlinks=False):
-            file_statistic = ((entry.stat().st_size, entry.name), entry.path)
-            files_list.append(file_statistic)
-        elif entry.is_dir(follow_symlinks=False):
-            files_list.extend(get_files_in_path(entry.path))
-    return files_list
+    intermediate_list = defaultdict(list)
+    for root, dirs, files in os.walk(path):
+        for file_name in files:
+            file_path = os.path.join(root, file_name)
+            file_info = os.path.getsize(file_path)
+            intermediate_list[file_info, file_name].append(file_path)
+    return intermediate_list
 
 
-def search_duplicates(file_list):
-    duplicate_list = []
-    counter_keys = defaultdict(list)
-    for file_info, path_file in file_list:
-        counter_keys[file_info].append(path_file)
-    intermediate_list = sorted(counter_keys.items())
-    for full_file_info in intermediate_list:
-        if len(full_file_info[1]) > 1:
-            duplicate_list.append(full_file_info)
+def search_duplicates(intermediate_list):
+    duplicate_list = defaultdict(list)
+    for name_file, pathes in intermediate_list.items():
+        if len(pathes) > 1:
+            duplicate_list[name_file].extend(pathes)
     return duplicate_list
 
 
-def display_the_result(duplicate_list):
-    for info_about_file in duplicate_list:
-        duplicate_file = 'Duplicate a file "{}" size of {} kb'.format(info_about_file[0][1], info_about_file[0][0])
-        path_to_duplicate_files = ' {} сopies'.format(len(info_about_file[1]))
+def display_the_result(duplicate_list: defaultdict):
+    for name_file, pathes in duplicate_list.items():
+        duplicate_file = 'Duplicate a file "{}" size of {} kb'.format(name_file[1], name_file[0])
+        number_copies = '| {} сopies'.format(len(pathes))
         print(duplicate_file)
-        print(path_to_duplicate_files)
-        # print(duplicate_file)
-        # for number, pathes_to_duplicate_files in enumerate(info_about_file[1], start=1):
-        #     info_about_path = '| {}. {}'.format(number, pathes_to_duplicate_files)
-        #     print(info_about_path)
+        print(number_copies)
+        for path in pathes:
+            path_to_file = '| Location: {}'.format(path)
+            print(path_to_file)
+        print()
+
 
 
 if __name__ == '__main__':
     option = get_path()
-    path = option.path
-    file_list = get_files_in_path(path)
-    duplicate_list = search_duplicates(file_list)
+    intermediate_files_list = get_files_in_path(option.path)
+    duplicate_list = search_duplicates(intermediate_files_list)
     display_the_result(duplicate_list)
